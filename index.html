@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Natan Tunner — Estrategista de Conteúdo Digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #080808;
+    --bg2: #0f0f0f;
+    --bg3: #141414;
+    --border: rgba(255,255,255,0.08);
+    --white: #FFFFFF;
+    --gray: #888;
+    --gray2: #555;
+    --accent: #C8B89A;
+    --accent2: rgba(200,184,154,0.15);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    position: fixed;
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1px solid rgba(200,184,154,0.4);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: all 0.15s ease;
+  }
+
+  /* Nav */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 60px;
+    transition: background 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(8,8,8,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 60px;
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 40px; list-style: none; }
+  .nav-links a {
+    color: var(--gray);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--white); }
+
+  /* Buttons */
+  .btn {
+    display: inline-block;
+    padding: 14px 36px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: none;
+  }
+  .btn-outline {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.3);
+    color: var(--white);
+  }
+  .btn-outline:hover {
+    background: var(--white);
+    color: var(--bg);
+    border-color: var(--white);
+  }
+  .btn-accent {
+    background: var(--accent);
+    color: var(--bg);
+    border: 1px solid var(--accent);
+  }
+  .btn-accent:hover {
+    background: transparent;
+    color: var(--accent);
+  }
+
+  /* Section base */
+  section { padding: 120px 60px; }
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .section-label::before {
+    content: '';
+    width: 40px; height: 1px;
+    background: var(--accent);
+    opacity: 0.6;
+  }
+
+  /* ===== HERO ===== */
+  #hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 0 60px;
+    gap: 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-noise {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    opacity: 0.5;
+  }
+  .hero-content { position: relative; z-index: 1; }
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--accent2);
+    border: 1px solid rgba(200,184,154,0.2);
+    padding: 8px 18px;
+    border-radius: 100px;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 40px;
+  }
+  .hero-tag .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:0.5; transform:scale(1.5); } }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 6vw, 82px);
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin-bottom: 28px;
+  }
+  .hero-title em { font-style: italic; color: var(--accent); }
+  .hero-sub {
+    font-size: 16px;
+    color: var(--gray);
+    max-width: 480px;
+    margin-bottom: 14px;
+    line-height: 1.75;
+  }
+  .hero-desc {
+    font-size: 14px;
+    color: var(--gray2);
+    max-width: 420px;
+    margin-bottom: 50px;
+    line-height: 1.8;
+  }
+  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+  .hero-stats {
+    margin-top: 70px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 50px;
+  }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 40px;
+    font-weight: 300;
+    color: var(--white);
+    line-height: 1;
+  }
+  .stat-label { font-size: 12px; color: var(--gray); letter-spacing: 0.08em; margin-top: 6px; }
+
+  /* Hero image */
+  .hero-image-side {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  .hero-img-frame {
+    position: relative;
+    width: 420px;
+    max-width: 100%;
+  }
+  .hero-img-frame::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    background: linear-gradient(135deg, rgba(200,184,154,0.3), transparent 60%);
+    z-index: 1;
+    pointer-events: none;
+  }
+  .hero-img-frame img {
+    width: 100%;
+    height: 580px;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+    filter: grayscale(20%) contrast(1.05);
+  }
+  .hero-img-tag {
+    position: absolute;
+    bottom: -20px;
+    left: -30px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    padding: 16px 22px;
+    z-index: 2;
+  }
+  .hero-img-tag .tag-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 300;
+    color: var(--white);
+  }
+  .hero-img-tag .tag-role { font-size: 11px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; }
+  .hero-scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 60px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gray2);
+  }
+  .hero-scroll-hint .line {
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(to bottom, var(--accent), transparent);
+    animation: scrollLine 2s ease-in-out infinite;
+  }
+  @keyframes scrollLine { 0%,100%{opacity:1;transform:scaleY(1);transform-origin:top} 50%{opacity:0.3;} }
+
+  /* ===== SOBRE ===== */
+  #sobre {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: center;
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .sobre-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 4vw, 54px);
+    font-weight: 300;
+    line-height: 1.2;
+    margin-bottom: 30px;
+  }
+  .sobre-title em { font-style: italic; color: var(--accent); }
+  .sobre-text { font-size: 15px; color: var(--gray); line-height: 1.9; margin-bottom: 20px; }
+  .sobre-right { position: relative; }
+  .sobre-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-style: italic;
+    font-weight: 300;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.5;
+    padding: 40px;
+    border-left: 1px solid var(--accent);
+    margin-bottom: 40px;
+  }
+  .sobre-skills { display: flex; flex-wrap: wrap; gap: 10px; }
+  .skill-tag {
+    padding: 8px 18px;
+    border: 1px solid var(--border);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--gray);
+    text-transform: uppercase;
+    transition: all 0.3s;
+  }
+  .skill-tag:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ===== SERVIÇOS ===== */
+  #servicos { background: var(--bg); }
+  .section-header { margin-bottom: 70px; }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 4vw, 54px);
+    font-weight: 300;
+    line-height: 1.2;
+    max-width: 600px;
+  }
+  .section-title em { font-style: italic; color: var(--accent); }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+  .service-card {
+    background: var(--bg);
+    padding: 44px 40px;
+    transition: background 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .service-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 1px;
+    background: var(--accent);
+    transition: width 0.4s ease;
+  }
+  .service-card:hover { background: var(--bg2); }
+  .service-card:hover::after { width: 100%; }
+  .service-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 28px;
+    opacity: 0.7;
+  }
+  .service-icon {
+    width: 44px; height: 44px;
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 24px;
+    font-size: 20px;
+    color: var(--accent);
+  }
+  .service-name {
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 12px;
+    letter-spacing: 0.02em;
+  }
+  .service-desc { font-size: 14px; color: var(--gray); line-height: 1.7; }
+
+  /* ===== PROCESSO ===== */
+  #processo {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .processo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+  }
+  .processo-step {
+    padding: 50px 48px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+    transition: background 0.3s;
+  }
+  .processo-step:hover { background: rgba(200,184,154,0.03); }
+  .processo-step:nth-child(odd) { border-right: 1px solid var(--border); }
+  .step-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    font-weight: 300;
+    color: rgba(200,184,154,0.2);
+    line-height: 1;
+    flex-shrink: 0;
+    transition: color 0.3s;
+  }
+  .processo-step:hover .step-num { color: var(--accent); }
+  .step-name { font-size: 16px; font-weight: 400; color: var(--white); margin-bottom: 10px; }
+  .step-desc { font-size: 14px; color: var(--gray); line-height: 1.7; }
+
+  /* ===== PLANOS ===== */
+  #planos { background: var(--bg); }
+  .planos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .plano-card {
+    border: 1px solid var(--border);
+    padding: 48px 40px;
+    position: relative;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .plano-card:hover { border-color: rgba(200,184,154,0.4); transform: translateY(-4px); }
+  .plano-card.featured {
+    border-color: var(--accent);
+    background: linear-gradient(160deg, rgba(200,184,154,0.05), transparent);
+  }
+  .plano-badge {
+    position: absolute;
+    top: -1px; right: 28px;
+    background: var(--accent);
+    color: var(--bg);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    font-weight: 500;
+  }
+  .plano-name {
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 28px;
+  }
+  .plano-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 58px;
+    font-weight: 300;
+    line-height: 1;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .plano-price sup { font-size: 24px; vertical-align: top; margin-top: 10px; display: inline-block; }
+  .plano-period { font-size: 13px; color: var(--gray); margin-bottom: 36px; }
+  .plano-divider { width: 100%; height: 1px; background: var(--border); margin-bottom: 30px; }
+  .plano-features { list-style: none; margin-bottom: 40px; }
+  .plano-features li {
+    font-size: 14px;
+    color: var(--gray);
+    padding: 9px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .plano-features li::before {
+    content: '—';
+    color: var(--accent);
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+
+  /* ===== AVULSOS ===== */
+  #avulsos {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .avulsos-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: start; }
+  .avulsos-list { list-style: none; }
+  .avulsos-list li {
+    padding: 22px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 15px;
+    color: var(--gray);
+    transition: color 0.3s;
+  }
+  .avulsos-list li:hover { color: var(--white); }
+  .avulsos-list li .arr { color: var(--accent); font-size: 12px; }
+  .avulsos-info { padding: 40px; border: 1px solid var(--border); }
+  .avulsos-info h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 300;
+    margin-bottom: 18px;
+  }
+  .avulsos-info p { font-size: 14px; color: var(--gray); line-height: 1.8; margin-bottom: 28px; }
+  .info-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .info-row:last-child { border-bottom: none; }
+  .info-icon { color: var(--accent); font-size: 16px; margin-top: 2px; flex-shrink: 0; }
+  .info-label { font-size: 12px; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+  .info-val { font-size: 14px; color: var(--gray); }
+
+  /* ===== PAGAMENTO ===== */
+  #pagamento {
+    background: var(--bg);
+    padding: 100px 60px;
+  }
+  .pagamento-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+  .pagamento-methods { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border); margin-top: 40px; }
+  .pay-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 22px 28px;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+  }
+  .pay-item:last-child { border-bottom: none; }
+  .pay-item:hover { background: var(--bg2); }
+  .pay-name { font-size: 15px; color: var(--white); }
+  .pay-detail { font-size: 13px; color: var(--gray); }
+
+  /* ===== CONTATO ===== */
+  #contato {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .contato-bg-text {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 200px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.02);
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+    letter-spacing: -0.05em;
+  }
+  .contato-content { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+  .contato-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(48px, 7vw, 90px);
+    font-weight: 300;
+    line-height: 1.05;
+    margin-bottom: 24px;
+  }
+  .contato-title em { font-style: italic; color: var(--accent); }
+  .contato-sub { font-size: 16px; color: var(--gray); margin-bottom: 60px; line-height: 1.8; }
+  .contato-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 80px; }
+  .contato-info {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    flex-wrap: wrap;
+    padding-top: 50px;
+    border-top: 1px solid var(--border);
+  }
+  .contato-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+  }
+  .contato-link .cl-label { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); }
+  .contato-link .cl-val { font-size: 15px; color: var(--gray); transition: color 0.3s; }
+  .contato-link:hover .cl-val { color: var(--white); }
+
+  /* Footer */
+  footer {
+    padding: 30px 60px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  footer .f-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  footer .f-copy { font-size: 12px; color: var(--gray2); letter-spacing: 0.05em; }
+
+  /* Animations */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .fade-up.d1 { transition-delay: 0.1s; }
+  .fade-up.d2 { transition-delay: 0.2s; }
+  .fade-up.d3 { transition-delay: 0.3s; }
+  .fade-up.d4 { transition-delay: 0.4s; }
+  .fade-up.d5 { transition-delay: 0.5s; }
+  .fade-up.d6 { transition-delay: 0.6s; }
+
+  /* Mobile */
+  @media (max-width: 900px) {
+    nav { padding: 22px 24px; }
+    nav.scrolled { padding: 16px 24px; }
+    .nav-links { display: none; }
+    section { padding: 80px 24px; }
+    #hero { grid-template-columns: 1fr; padding: 100px 24px 60px; min-height: auto; gap: 50px; }
+    .hero-image-side { height: auto; }
+    .hero-img-frame { width: 100%; }
+    .hero-img-frame img { height: 420px; }
+    .hero-img-tag { left: 10px; }
+    .hero-stats { gap: 28px; }
+    .hero-scroll-hint { display: none; }
+    #sobre { grid-template-columns: 1fr; gap: 50px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .processo-grid { grid-template-columns: 1fr; }
+    .processo-step:nth-child(odd) { border-right: none; }
+    .planos-grid { grid-template-columns: 1fr; }
+    .avulsos-layout { grid-template-columns: 1fr; gap: 50px; }
+    .pagamento-layout { grid-template-columns: 1fr; gap: 50px; }
+    .contato-info { gap: 30px; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+    body { cursor: auto; }
+    .cursor, .cursor-ring { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Nav -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">Natan Tunner</a>
+  <ul class="nav-links">
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#servicos">Serviços</a></li>
+    <li><a href="#planos">Planos</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-noise"></div>
+  <div class="hero-content">
+    <div class="hero-tag fade-up">
+      <span class="dot"></span>
+      Disponível para novos projetos
+    </div>
+    <h1 class="hero-title fade-up d1">
+      Transformando marcas em <em>presença</em> digital
+    </h1>
+    <p class="hero-sub fade-up d2">
+      Estrategista de conteúdo em formação, com visão de branding e obsessão por resultados reais no digital.
+    </p>
+    <p class="hero-desc fade-up d3">
+      Crio conteúdos que geram conexão genuína — alinhando estética, estratégia e propósito da sua marca.
+    </p>
+    <div class="hero-btns fade-up d4">
+      <a href="#servicos" class="btn btn-accent">Ver serviços</a>
+      <a href="#contato" class="btn btn-outline">Entrar em contato</a>
+    </div>
+    <div class="hero-stats fade-up d5">
+      <div>
+        <div class="stat-num">6+</div>
+        <div class="stat-label">Serviços ativos</div>
+      </div>
+      <div>
+        <div class="stat-num">7d</div>
+        <div class="stat-label">Prazo de entrega</div>
+      </div>
+      <div>
+        <div class="stat-num">3x</div>
+        <div class="stat-label">Parcelamento</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-image-side fade-up d2">
+    <div class="hero-img-frame">
+      <img src="/mnt/user-data/uploads/IMG_0930.jpeg" alt="Natan Tunner">
+      <div class="hero-img-tag">
+        <div class="tag-name">Natan Tunner</div>
+        <div class="tag-role">Social Media · Estrategista de Conteúdo</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll-hint">
+    <div class="line"></div>
+    Scroll
+  </div>
+</section>
+
+<!-- SOBRE -->
+<section id="sobre">
+  <div class="fade-up">
+    <div class="section-label">Sobre mim</div>
+    <h2 class="sobre-title">Criando estratégias <em>através</em><br>do conteúdo</h2>
+    <p class="sobre-text">
+      Me chamo Natan, e sou estrategista de conteúdo em desenvolvimento. Minha missão é construir presença digital forte e autêntica para marcas que querem se destacar.
+    </p>
+    <p class="sobre-text">
+      Acompanho tendências, estudo o comportamento de audiências e aplico estratégias que vão além da estética — com foco em resultado, posicionamento e conexão real com o público.
+    </p>
+    <div class="sobre-skills" style="margin-top:32px">
+      <span class="skill-tag">Social Media</span>
+      <span class="skill-tag">Conteúdo Estratégico</span>
+      <span class="skill-tag">Reels</span>
+      <span class="skill-tag">Copywriting</span>
+      <span class="skill-tag">Análise de Métricas</span>
+      <span class="skill-tag">Branding Digital</span>
+    </div>
+  </div>
+  <div class="sobre-right fade-up d2">
+    <div class="sobre-quote">
+      "Não crio apenas posts. Construo narrativas que posicionam marcas e geram resultados mensuráveis."
+    </div>
+    <p class="sobre-text" style="font-size:14px;">
+      Estudante de Publicidade e Propaganda com visão de mercado, comprometido com entregas que fazem diferença real na presença digital do seu negócio.
+    </p>
+  </div>
+</section>
+
+<!-- SERVIÇOS -->
+<section id="servicos">
+  <div class="section-header fade-up">
+    <div class="section-label">O que eu faço</div>
+    <h2 class="section-title">Soluções completas para sua <em>marca digital</em></h2>
+  </div>
+  <div class="services-grid">
+    <div class="service-card fade-up">
+      <div class="service-num">01</div>
+      <div class="service-icon">◈</div>
+      <div class="service-name">Gestão de Redes Sociais</div>
+      <div class="service-desc">Planejamento, execução e acompanhamento completo da sua presença digital, do início ao fim.</div>
+    </div>
+    <div class="service-card fade-up d1">
+      <div class="service-num">02</div>
+      <div class="service-icon">◇</div>
+      <div class="service-name">Criação de Conteúdo</div>
+      <div class="service-desc">Posts, carrosséis e roteiros desenvolvidos para maximizar engajamento e gerar conexão com sua audiência.</div>
+    </div>
+    <div class="service-card fade-up d2">
+      <div class="service-num">03</div>
+      <div class="service-icon">○</div>
+      <div class="service-name">Planejamento Estratégico</div>
+      <div class="service-desc">Calendário mensal estruturado e alinhado aos objetivos de crescimento da sua marca.</div>
+    </div>
+    <div class="service-card fade-up">
+      <div class="service-num">04</div>
+      <div class="service-icon">▷</div>
+      <div class="service-name">Conteúdo para Reels</div>
+      <div class="service-desc">Vídeos curtos e dinâmicos, otimizados para alcance orgânico e alta retenção de audiência.</div>
+    </div>
+    <div class="service-card fade-up d1">
+      <div class="service-num">05</div>
+      <div class="service-icon">◎</div>
+      <div class="service-name">Análise de Métricas</div>
+      <div class="service-desc">Monitoramento contínuo de performance com otimizações baseadas em dados reais.</div>
+    </div>
+    <div class="service-card fade-up d2">
+      <div class="service-num">06</div>
+      <div class="service-icon">◉</div>
+      <div class="service-name">Suporte Personalizado</div>
+      <div class="service-desc">Atendimento próximo, estratégico e ágil para manter sua marca sempre à frente.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESSO -->
+<section id="processo">
+  <div class="section-header fade-up">
+    <div class="section-label">Como trabalho</div>
+    <h2 class="section-title">Um processo <em>orientado</em><br>a resultados</h2>
+  </div>
+  <div class="processo-grid">
+    <div class="processo-step fade-up">
+      <div class="step-num">01</div>
+      <div>
+        <div class="step-name">Diagnóstico</div>
+        <div class="step-desc">Imersão profunda no negócio, público-alvo e objetivos da marca para construir uma base estratégica sólida.</div>
+      </div>
+    </div>
+    <div class="processo-step fade-up d1">
+      <div class="step-num">02</div>
+      <div>
+        <div class="step-name">Planejamento</div>
+        <div class="step-desc">Definição de estratégia editorial, temas, formatos e calendário de conteúdo mensalmente.</div>
+      </div>
+    </div>
+    <div class="processo-step fade-up">
+      <div class="step-num">03</div>
+      <div>
+        <div class="step-name">Criação</div>
+        <div class="step-desc">Produção de conteúdos visuais e textuais com foco total em performance e identidade de marca.</div>
+      </div>
+    </div>
+    <div class="processo-step fade-up d1">
+      <div class="step-num">04</div>
+      <div>
+        <div class="step-name">Aprovação</div>
+        <div class="step-desc">Validação com o cliente, feedbacks incorporados e ajustes necessários antes da publicação.</div>
+      </div>
+    </div>
+    <div class="processo-step fade-up" style="border-bottom:none;">
+      <div class="step-num">05</div>
+      <div>
+        <div class="step-name">Agendamento</div>
+        <div class="step-desc">Organização e publicação estratégica nos melhores horários para o seu público.</div>
+      </div>
+    </div>
+    <div class="processo-step fade-up d1" style="border-bottom:none;">
+      <div class="step-num">06</div>
+      <div>
+        <div class="step-name">Relatório</div>
+        <div class="step-desc">Análise completa de resultados com insights e plano de otimização para o próximo ciclo.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLANOS -->
+<section id="planos">
+  <div class="section-header fade-up">
+    <div class="section-label">Investimento</div>
+    <h2 class="section-title">Planos pensados para cada <em>fase</em> do seu negócio</h2>
+  </div>
+  <div class="planos-grid">
+    <div class="plano-card fade-up">
+      <div class="plano-name">Essencial</div>
+      <div class="plano-price"><sup>R$</sup>200</div>
+      <div class="plano-period">por mês</div>
+      <div class="plano-divider"></div>
+      <ul class="plano-features">
+        <li>12 posts para feed</li>
+        <li>1 reunião mensal de alinhamento</li>
+        <li>Suporte via e-mail</li>
+        <li>Entrega em até 7 dias úteis</li>
+      </ul>
+      <a href="#contato" class="btn btn-outline" style="width:100%;text-align:center;display:block;">Começar agora</a>
+    </div>
+    <div class="plano-card featured fade-up d1">
+      <div class="plano-badge">Mais popular</div>
+      <div class="plano-name">Profissional</div>
+      <div class="plano-price"><sup>R$</sup>250</div>
+      <div class="plano-period">por mês</div>
+      <div class="plano-divider"></div>
+      <ul class="plano-features">
+        <li>20 posts para feed</li>
+        <li>5 Reels mensais</li>
+        <li>2 reuniões mensais</li>
+        <li>Calendário de conteúdo</li>
+        <li>Suporte via app</li>
+      </ul>
+      <a href="#contato" class="btn btn-accent" style="width:100%;text-align:center;display:block;">Começar agora</a>
+    </div>
+    <div class="plano-card fade-up d2">
+      <div class="plano-name">Premium</div>
+      <div class="plano-price"><sup>R$</sup>300</div>
+      <div class="plano-period">por mês</div>
+      <div class="plano-divider"></div>
+      <ul class="plano-features">
+        <li>Tudo do plano Profissional</li>
+        <li>Conteúdo diário + vídeos</li>
+        <li>Reuniões semanais</li>
+        <li>Gestão de comentários e DMs</li>
+        <li>Relatório avançado</li>
+      </ul>
+      <a href="#contato" class="btn btn-outline" style="width:100%;text-align:center;display:block;">Começar agora</a>
+    </div>
+  </div>
+</section>
+
+<!-- AVULSOS -->
+<section id="avulsos">
+  <div class="avulsos-layout">
+    <div class="fade-up">
+      <div class="section-label">Serviços extras</div>
+      <h2 class="section-title" style="font-size:clamp(32px,3.5vw,46px);margin-bottom:40px;">Serviços <em>avulsos</em> sob medida</h2>
+      <ul class="avulsos-list">
+        <li>Roteiro para Reels <span class="arr">→</span></li>
+        <li>Identidade visual para Instagram <span class="arr">→</span></li>
+        <li>Kit de destaques e bio <span class="arr">→</span></li>
+        <li>Consultoria estratégica <span class="arr">→</span></li>
+      </ul>
+      <p style="font-size:13px;color:var(--gray2);margin-top:24px;letter-spacing:0.05em;">* Valores sob consulta conforme escopo do projeto</p>
+    </div>
+    <div class="fade-up d2">
+      <div class="avulsos-info">
+        <h3>Entrega & Prazos</h3>
+        <p>Comprometido com qualidade e pontualidade em cada entrega.</p>
+        <div class="info-row">
+          <span class="info-icon">◷</span>
+          <div>
+            <div class="info-label">Prazo</div>
+            <div class="info-val">Até 7 dias úteis após briefing aprovado</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <span class="info-icon">◈</span>
+          <div>
+            <div class="info-label">Revisões</div>
+            <div class="info-val">1 revisão inclusa por peça</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <span class="info-icon">◇</span>
+          <div>
+            <div class="info-label">Entrega</div>
+            <div class="info-val">Conteúdos prontos para publicação</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <span class="info-icon">○</span>
+          <div>
+            <div class="info-label">Acompanhamento</div>
+            <div class="info-val">Monitoramento contínuo e suporte ativo</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGAMENTO -->
+<section id="pagamento">
+  <div class="pagamento-layout">
+    <div class="fade-up">
+      <div class="section-label">Pagamento</div>
+      <h2 class="section-title" style="font-size:clamp(32px,3.5vw,46px);margin-bottom:18px;">Sem complicação na hora de <em>contratar</em></h2>
+      <p style="font-size:15px;color:var(--gray);line-height:1.8;">Contrato simples incluso em todos os planos. Planos mensais recorrentes ou serviços avulsos conforme sua necessidade.</p>
+    </div>
+    <div class="fade-up d2">
+      <div class="pagamento-methods">
+        <div class="pay-item">
+          <span class="pay-name">Pix</span>
+          <span class="pay-detail">Instantâneo</span>
+        </div>
+        <div class="pay-item">
+          <span class="pay-name">Cartão de Crédito</span>
+          <span class="pay-detail">Até 3x sem juros</span>
+        </div>
+        <div class="pay-item">
+          <span class="pay-name">Boleto Bancário</span>
+          <span class="pay-detail">Para recorrência mensal</span>
+        </div>
+        <div class="pay-item">
+          <span class="pay-name">Contrato</span>
+          <span class="pay-detail">Incluso em todos os planos</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section id="contato">
+  <div class="contato-bg-text">NATAN</div>
+  <div class="contato-content">
+    <div class="section-label" style="justify-content:center;margin-bottom:32px;">Contato</div>
+    <h2 class="contato-title fade-up">Vamos trabalhar <em>juntos?</em></h2>
+    <p class="contato-sub fade-up d1">
+      Estou pronto para transformar suas redes sociais em um canal de crescimento real e consistente.
+    </p>
+    <div class="contato-btns fade-up d2">
+      <a href="https://wa.me/5511965029817" target="_blank" class="btn btn-accent">WhatsApp</a>
+      <a href="https://instagram.com/natantunner" target="_blank" class="btn btn-outline">Instagram</a>
+      <a href="mailto:natantunner16@gmail.com" class="btn btn-outline">E-mail</a>
+    </div>
+    <div class="contato-info fade-up d3">
+      <a href="tel:+5511965029817" class="contato-link">
+        <span class="cl-label">Telefone</span>
+        <span class="cl-val">(11) 96502-9817</span>
+      </a>
+      <a href="https://instagram.com/natantunner" target="_blank" class="contato-link">
+        <span class="cl-label">Instagram</span>
+        <span class="cl-val">@natantunner</span>
+      </a>
+      <a href="mailto:natantunner16@gmail.com" class="contato-link">
+        <span class="cl-label">E-mail</span>
+        <span class="cl-val">natantunner16@gmail.com</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="f-name">Natan Tunner</span>
+  <span class="f-copy">© 2025 · Estrategista de Conteúdo Digital</span>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  function animCursor() {
+    cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+    requestAnimationFrame(animCursor);
+  }
+  animCursor();
+  document.querySelectorAll('a, button, .service-card, .plano-card').forEach(el => {
+    el.addEventListener('mouseenter', () => { ring.style.transform = 'translate(-50%,-50%) scale(1.8)'; ring.style.borderColor = 'rgba(200,184,154,0.7)'; });
+    el.addEventListener('mouseleave', () => { ring.style.transform = 'translate(-50%,-50%) scale(1)'; ring.style.borderColor = 'rgba(200,184,154,0.4)'; });
+  });
+
+  // Navbar scroll
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 60); });
+
+  // Fade-up observer
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
